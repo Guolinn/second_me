@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/connect · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+  <style>
+    .form { display: grid; gap: 10px; }
+    .form input, .form textarea { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); font-family: "Nunito", sans-serif; }
+    .form textarea { min-height: 120px; resize: vertical; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/entry</a>
+        <a href="connect.html">/connect</a>
+        <a href="card.html">/card</a>
+        <a href="friends.html">/friends</a>
+        <a href="everything.html">/everything</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <section class="section">
+      <h1>/connect</h1>
+      <p class="quote">写信给我，不是投递简历。</p>
+      <p><strong>I’m open to</strong> · Product collaboration · AI systems · Research & experimentation · Early-stage ideas</p>
+      <p><strong>I’m NOT open to</strong> · Generic outsourcing · Spam pitches</p>
+    </section>
+
+    <section class="section">
+      <h2>Letter</h2>
+      <form class="form" id="contact-form">
+        <input type="text" name="name" placeholder="Name" />
+        <input type="email" name="email" placeholder="Email" />
+        <input type="text" name="intent" placeholder="Intent" />
+        <textarea name="message" placeholder="Message"></textarea>
+        <button class="btn" type="submit">Send</button>
+      </form>
+      <p id="contact-status" style="margin-top:8px;"></p>
+    </section>
+
+    <div class="footer-nav">
+      <button class="btn outline" onclick="location.href='live.html'">下一站：/live</button>
+      <button class="btn outline" onclick="location.href='proof.html'">回到 /proof</button>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    const form = document.getElementById('contact-form');
+    const statusEl = document.getElementById('contact-status');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      statusEl.textContent = 'Sending...';
+
+      const payload = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        intent: form.intent.value.trim(),
+        message: form.message.value.trim()
+      };
+
+      const { error } = await supabase.from('contacts').insert([payload]);
+
+      if (error) {
+        statusEl.textContent = 'Failed to send. Please try again.';
+        return;
+      }
+
+      statusEl.textContent = 'Message sent. Thank you.';
+      form.reset();
+    });
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

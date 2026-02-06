@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guolin Wang — CV</title>
+  <style>
+    :root {
+      --bg: #f6f2ea;
+      --ink: #1e1a16;
+      --muted: #5a5147;
+      --accent: #0f3d2e;
+      --card: #fffaf2;
+      --rule: #d6cbbf;
+      --title-size: 36px;
+      --body-size: 16px;
+      --line-height: 1.58;
+      --page-pad-top: 16mm;
+      --page-pad-side: 18mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Alegreya", "Garamond", "Georgia", serif;
+      color: var(--ink);
+      background: radial-gradient(1200px 600px at 20% 0%, #fff5e7 0%, var(--bg) 60%), var(--bg);
+      line-height: var(--line-height);
+      font-size: var(--body-size);
+    }
+    .layout {
+      display: flex;
+      gap: 18px;
+      padding: 18px 18px 36px;
+      align-items: flex-start;
+    }
+    .editor {
+      width: 320px;
+      background: #fffdf8;
+      border: 1px solid var(--rule);
+      padding: 14px;
+      position: sticky;
+      top: 18px;
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+    }
+    .editor h2 {
+      font-size: 13px;
+      margin: 0 0 8px;
+      text-transform: none;
+      letter-spacing: 0.2px;
+      color: var(--accent);
+    }
+    .editor label {
+      display: block;
+      margin: 10px 0 4px;
+      color: var(--muted);
+    }
+    .editor input[type="text"],
+    .editor textarea,
+    .editor select {
+      width: 100%;
+      border: 1px solid var(--rule);
+      padding: 6px 8px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+      background: #fff;
+    }
+    .editor textarea { min-height: 74px; resize: vertical; }
+    .editor input[type="range"] { width: 100%; }
+    .editor-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .editor-actions button {
+      flex: 1;
+      border: 1px solid var(--rule);
+      background: #fff;
+      padding: 7px 8px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .page {
+      width: 210mm;
+      margin: 18mm auto 24mm;
+      padding: var(--page-pad-top) var(--page-pad-side);
+      background: linear-gradient(180deg, #fffdf8 0%, var(--card) 100%);
+      border: 1px solid var(--rule);
+      box-shadow: 0 12px 30px rgba(30, 26, 22, 0.08);
+    }
+    header {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 14px 18px;
+      border: 1px solid #d8cfc3;
+      border-left: 4px solid var(--accent);
+      background: linear-gradient(120deg, #fffefb 0%, #f8f4ec 100%);
+      padding: 16px 16px 14px;
+      margin-bottom: 22px;
+    }
+    .header-left {
+      display: grid;
+      gap: 7px;
+    }
+    .header-right {
+      display: grid;
+      align-content: start;
+      justify-items: end;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid #e6dbce;
+      padding: 8px;
+    }
+    h1 {
+      font-size: var(--title-size);
+      margin: 0;
+      letter-spacing: 0.1px;
+      line-height: 1.08;
+    }
+    .meta {
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    #location-display {
+      text-transform: none;
+      letter-spacing: 0.4px;
+      font-size: 12px;
+      opacity: 0.95;
+    }
+    #thinking-display {
+      display: inline-block;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      color: var(--accent);
+      border: 1px solid #bad2c8;
+      background: linear-gradient(180deg, #f6fcf9 0%, #edf7f2 100%);
+      padding: 4px 8px;
+      width: fit-content;
+      border-radius: 3px;
+    }
+    #thinking-display a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      margin-left: 4px;
+    }
+    #contact-display {
+      padding-top: 9px;
+      border-top: 1px solid #e3d8cb;
+      max-width: 100%;
+      white-space: nowrap;
+      font-size: 12px;
+      letter-spacing: 0.1px;
+    }
+    .tagline {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--accent);
+      display: none;
+    }
+    .lang-toggle {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .lang-toggle button {
+      border: 1px solid #cfc2b3;
+      background: #fff;
+      padding: 3px 7px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .lang-toggle button[aria-pressed="true"] {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .actions button {
+      border: 1px solid #cfc2b3;
+      background: #fffefc;
+      padding: 3px 8px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .lang { display: none; }
+    .lang.is-active { display: block; }
+    section { margin: 18px 0; }
+    p { margin: 8px 0 14px; }
+    .memo-hero {
+      border: 1px solid #d8cfc3;
+      border-left: 4px solid #2d5a49;
+      background: linear-gradient(135deg, #fffdf8 0%, #f7f2e8 100%);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+    .memo-kicker {
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      color: #2d5a49;
+      font-size: 11px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .impact-note {
+      margin-top: 0;
+      margin-bottom: 10px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .metric {
+      border: 1px solid #ded4c7;
+      background: #fff;
+      padding: 8px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 16px;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .metric span {
+      display: block;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .memo-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.35fr;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .memo-card {
+      border: 1px solid #ddd2c3;
+      background: #fffefb;
+      padding: 10px 12px;
+    }
+    .memo-card h2 {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-size: 18px;
+      margin: 0 0 8px 0;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      color: var(--accent);
+    }
+    h3 {
+      font-size: 16px;
+      margin: 12px 0 2px 0;
+    }
+    .role {
+      font-style: italic;
+      color: var(--muted);
+      margin: 0 0 6px 0;
+    }
+    ul { margin: 6px 0 10px 18px; padding: 0; }
+    li { margin: 4px 0; }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      font-size: 12px;
+      margin: 3px 6px 0 0;
+      background: #fff;
+    }
+    .skills h3 { margin-top: 8px; }
+    .muted { color: var(--muted); }
+    .soft-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rule), transparent);
+      margin: 18px 0 8px;
+    }
+    section { page-break-inside: avoid; }
+    .projects h3 {
+      margin-top: 16px;
+      padding-top: 8px;
+      border-top: 1px solid #dfd2c3;
+    }
+    .projects ul {
+      border-left: 2px solid #ebe1d3;
+      padding-left: 12px;
+      margin-left: 4px;
+    }
+
+    @media (max-width: 760px) {
+      .layout { padding: 0; flex-direction: column; }
+      .editor { width: auto; position: static; border: 0; }
+      .page { margin: 0; border: 0; border-radius: 0; box-shadow: none; width: auto; }
+      header { grid-template-columns: 1fr; }
+      .header-right { justify-items: start; padding: 6px 0 0; border: 0; background: transparent; }
+      #contact-display { white-space: normal; }
+      .metric-strip, .memo-grid { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      h1 { font-size: 30px; }
+    }
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { background: #fff; }
+      .layout { padding: 0; }
+      .editor, .actions, .lang-toggle { display: none; }
+      .page {
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        width: auto;
+        padding: 0;
+      }
+      a { color: var(--ink); text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="editor" aria-label="Editor">
+      <h2>Editor</h2>
+      <label for="lang-select">Edit Language</label>
+      <select id="lang-select">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+      </select>
+
+      <label for="name-input">Name</label>
+      <input id="name-input" type="text" value="Guolin Wang" />
+
+      <label for="location-input">Location</label>
+      <input id="location-input" type="text" value="Vancouver, Canada • Dalian, China" />
+
+      <label for="email-input">Email</label>
+      <input id="email-input" type="text" value="guolinn.wang@gmail.com" />
+
+      <label for="linkedin-input">LinkedIn</label>
+      <input id="linkedin-input" type="text" value="linkedin.com/in/guolin-wang" />
+
+      <label for="github-input">GitHub / Portfolio</label>
+      <input id="github-input" type="text" value="github.com/Guolinn" />
+
+      <label for="tagline-input">Tagline</label>
+      <input id="tagline-input" type="text" value="Thinking → Building: guolin.wang" />
+
+      <label for="impact-input">Impact Line</label>
+      <textarea id="impact-input">Identifying problems, learning fast, and turning technology into systems that solve them in practice.</textarea>
+
+      <label for="core-input">Core Profile</label>
+      <textarea id="core-input">System-level builder working at the intersection of AI, social systems, and product strategy. Experienced in designing, shipping, and operating real-world platforms, with a strong bias toward fast execution, scalable system design, and validated impact in live environments.</textarea>
+
+      <label for="exec-input">Execution Speed Line</label>
+      <textarea id="exec-input">Functional demos in 48 hours · End-to-end delivery in ~1 week · Feedback-driven iteration</textarea>
+
+      <div class="soft-rule"></div>
+      <label for="title-size">Title Size</label>
+      <input id="title-size" type="range" min="28" max="44" value="36" />
+
+      <label for="body-size">Body Size</label>
+      <input id="body-size" type="range" min="13" max="18" value="16" />
+
+      <label for="line-height">Line Height</label>
+      <input id="line-height" type="range" min="1.3" max="1.8" step="0.02" value="1.58" />
+
+      <label for="pad-top">Top Padding (mm)</label>
+      <input id="pad-top" type="range" min="10" max="24" value="16" />
+
+      <label for="pad-side">Side Padding (mm)</label>
+      <input id="pad-side" type="range" min="12" max="24" value="18" />
+
+      <div class="editor-actions">
+        <button type="button" id="save-html">Save HTML</button>
+      </div>
+    </aside>
+
+    <main class="page">
+      <header>
+        <div class="header-left">
+          <h1 id="name-display">Guolin Wang</h1>
+          <div class="meta" id="location-display">Vancouver, Canada • Dalian, China</div>
+        <div class="meta" id="thinking-display">Thinking → Building · Website:<a href="https://guolin.wang" target="_blank" rel="noreferrer">guolin.wang</a></div>
+          <div class="meta" id="contact-display">guolinn.wang@gmail.com · linkedin.com/in/guolin-wang · github.com/Guolinn</div>
+        </div>
+        <div class="header-right">
+          <div class="lang-toggle" role="group" aria-label="Language toggle">
+            <button type="button" data-lang="en" aria-pressed="true">English</button>
+            <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+          </div>
+          <div class="actions">
+            <button type="button" id="export-pdf">Export PDF</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="lang lang-en is-active" data-lang="en">
+        <div class="tagline" id="tagline-en">Thinking → Building: guolin.wang</div>
+        <section class="memo-hero">
+          <div class="memo-kicker">Founder Memo</div>
+          <div class="impact-note" id="impact-en">Identifying problems, learning fast, and turning technology into systems that solve them in practice.</div>
+          <div class="metric-strip">
+            <div class="metric"><strong>48h</strong><span>Functional Demo</span></div>
+            <div class="metric"><strong>~1 Week</strong><span>End-to-End Delivery</span></div>
+            <div class="metric"><strong>1,500+</strong><span>Users (Education Product)</span></div>
+          </div>
+        </section>
+
+        <section class="memo-grid">
+          <div class="memo-card">
+            <h2>Education</h2>
+            <p><strong>University of British Columbia (UBC)</strong><br />B.A. — International Relations &amp; Data Science<br />Expected 2029</p>
+          </div>
+          <div class="memo-card">
+            <h2>Core Profile</h2>
+            <p id="core-en">System-level builder working at the intersection of AI, social systems, and product strategy. Experienced in designing, shipping, and operating real-world platforms, with a strong bias toward fast execution, scalable system design, and validated impact in live environments.</p>
+            <h2>Key Strengths</h2>
+            <ul>
+              <li>System architecture + real deployment under constraints.</li>
+              <li>Behavioral + mechanism thinking to shape user coordination.</li>
+              <li>Zero-to-one execution with tight feedback loops.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="projects">
+          <h2>Projects / Systems</h2>
+
+          <h3>Tarya — AI-powered Real-world Social System</h3>
+          <div class="role">Founder &amp; Product Lead</div>
+          <ul>
+            <li><strong>What it is:</strong> An AI-driven social system designed to facilitate real-world collaboration and meaningful connections beyond purely online interaction.</li>
+            <li><strong>Problem:</strong> Traditional social platforms optimize for engagement rather than real coordination, resulting in low signal and shallow connections.</li>
+            <li><strong>How shipped:</strong> Designed system architecture, AI persona logic, and matching mechanisms; led end-to-end product execution from concept to live deployment.</li>
+            <li><strong>Impact:</strong> Deployed as a live system and iterated based on real user behavior and feedback.</li>
+          </ul>
+
+          <h3>AI Education Startup (Acquired)</h3>
+          <div class="role">Co-Founder</div>
+          <ul>
+            <li><strong>What it is:</strong> An AI-based education product targeting inefficiencies in traditional learning workflows.</li>
+            <li><strong>Problem:</strong> High friction and low personalization in existing education solutions.</li>
+            <li><strong>How shipped:</strong> Identified core pain points, built MVP from scratch, and iterated rapidly based on user feedback.</li>
+            <li><strong>Impact:</strong> Scaled to 1,500+ users, achieved profitability within two months, and completed an early-stage acquisition.</li>
+          </ul>
+
+          <h3>Large-scale Social Coordination Platform</h3>
+          <div class="role">System Designer</div>
+          <ul>
+            <li><strong>What it is:</strong> A unified information and coordination platform enabling cross-group communication and collaboration.</li>
+            <li><strong>Problem:</strong> Fragmented information flow and inefficient coordination across diverse social actors.</li>
+            <li><strong>How shipped:</strong> Designed system architecture and AI-based supply–demand matching mechanisms under real operational constraints.</li>
+            <li><strong>Impact:</strong> Enabled scalable information dissemination and cooperation in real-world organizational contexts.</li>
+          </ul>
+
+          <h3>EcoSort — Behavioral AI for Public Infrastructure</h3>
+          <div class="role">Product &amp; System Designer</div>
+          <ul>
+            <li><strong>What it is:</strong> An AI-assisted waste-sorting system deployed in a school environment.</li>
+            <li><strong>Problem:</strong> Behavioral friction and cognitive overload at the point of disposal lead to persistent sorting errors.</li>
+            <li><strong>How shipped:</strong> Applied behavioral psychology principles to reduce cognitive load through immediate feedback and system-level intervention.</li>
+            <li><strong>Impact:</strong> Adopted in real public infrastructure settings, demonstrating measurable behavior improvement without user education or coercion.</li>
+          </ul>
+
+          <h3>AI × Reality / Virtual Interaction</h3>
+          <div class="role">Research-oriented System Exploration</div>
+          <ul>
+            <li><strong>What it is:</strong> Exploration of AI-mediated interaction between physical and virtual environments.</li>
+            <li><strong>Problem:</strong> Lack of understanding of how AI agents influence perception, trust, and decision-making across mixed realities.</li>
+            <li><strong>How shipped:</strong> Designed exploratory system concepts and research frameworks rather than productized features.</li>
+            <li><strong>Impact:</strong> Informs future system design for human–AI interaction at scale.</li>
+          </ul>
+
+          <h3>AI × Hardware Productivity Systems</h3>
+          <div class="role">Future Systems Builder</div>
+          <ul>
+            <li><strong>What it is:</strong> Exploration of AI-integrated hardware systems aimed at augmenting human productivity.</li>
+            <li><strong>Problem:</strong> Software-only tools are insufficient to reshape fundamental productivity constraints.</li>
+            <li><strong>How shipped:</strong> Designed early system architectures combining AI agents with physical constraints and workflows.</li>
+            <li><strong>Impact:</strong> Established technical direction for next-generation human–AI productivity systems.</li>
+          </ul>
+
+          <h3>Research &amp; Micro-Experiments — World Models &amp; Autonomous AI Agents</h3>
+          <div class="role">System Exploration</div>
+          <ul>
+            <li><strong>What it is:</strong> Simulated worlds where AI agents perceive, act, and evolve autonomously.</li>
+            <li><strong>Problem:</strong> Real-world systems are costly to test; institutional dynamics require safe sandboxes.</li>
+            <li><strong>How shipped:</strong> Built exploratory world-model concepts and multi-agent simulations as system sandboxes.</li>
+            <li><strong>Impact:</strong> Used as testbeds for studying coordination, decision-making, and emergent social behavior.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Contract Development &amp; Rapid Delivery</h2>
+          <p><strong>External Development Projects (×4)</strong></p>
+          <ul>
+            <li>Delivered end-to-end software solutions as a contract developer across multiple short-cycle projects.</li>
+            <li>Took ownership of requirement clarification, system design, implementation, and deployment.</li>
+            <li>Operated under tight timelines with minimal supervision, adapting quickly to changing requirements.</li>
+          </ul>
+        </section>
+
+        <section class="skills">
+          <h2>Skills &amp; Technical Stack</h2>
+          <div class="grid-2">
+            <div>
+              <h3>Execution Speed</h3>
+              <p class="muted" id="exec-en">Functional demos in 48 hours · End-to-end delivery in ~1 week · Feedback-driven iteration</p>
+
+              <h3>Programming &amp; Data</h3>
+              <div>
+                <span class="pill">Python</span>
+                <span class="pill">R</span>
+                <span class="pill">SQL</span>
+                <span class="pill">Java</span>
+                <span class="pill">JavaScript / TypeScript</span>
+              </div>
+
+              <h3>AI / ML &amp; Intelligent Systems</h3>
+              <div>
+                <span class="pill">Applied ML</span>
+                <span class="pill">AI agent systems</span>
+                <span class="pill">World models &amp; multi-agent simulation</span>
+                <span class="pill">LLM integration</span>
+                <span class="pill">Prompt engineering / vibe coding</span>
+              </div>
+
+              <h3>Full-Stack &amp; Delivery</h3>
+              <div>
+                <span class="pill">Full-stack web dev</span>
+                <span class="pill">Backend APIs</span>
+                <span class="pill">Relational DB design</span>
+                <span class="pill">Rapid prototyping</span>
+              </div>
+            </div>
+            <div>
+              <h3>Production &amp; Deployment</h3>
+              <div>
+                <span class="pill">Supabase</span>
+                <span class="pill">Cloudflare</span>
+                <span class="pill">Workers</span>
+                <span class="pill">Pages</span>
+                <span class="pill">DNS / CDN</span>
+              </div>
+
+              <h3>Product &amp; Strategy</h3>
+              <div>
+                <span class="pill">Product strategy</span>
+                <span class="pill">Zero-to-one execution</span>
+                <span class="pill">Business modeling</span>
+                <span class="pill">Market analysis</span>
+                <span class="pill">Incentive design</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-2">
+          <div>
+            <h2>Languages</h2>
+            <p>English (Fluent), Chinese (Native)</p>
+          </div>
+          <div>
+            <h2>Achievements &amp; Certifications</h2>
+            <ul>
+              <li>International Economics Olympiad (IEO)</li>
+              <li>USA Computing Olympiad (USACO)</li>
+              <li>CFA Institute — Investment Foundations Certificate</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2>Interests</h2>
+          <p>System-level design, strength training, music composition</p>
+        </section>
+      </div>
+
+      <div class="lang lang-zh" data-lang="zh">
+        <div class="tagline" id="tagline-zh">影响 / 速度 / 规模</div>
+        <section class="memo-hero">
+          <div class="memo-kicker">Founder Memo</div>
+          <div class="impact-note" id="impact-zh">多项真实系统已上线并被组织和用户使用；能够在数天内把想法从概念落地到生产环境。</div>
+          <div class="metric-strip">
+            <div class="metric"><strong>48h</strong><span>功能 Demo</span></div>
+            <div class="metric"><strong>约 1 周</strong><span>端到端交付</span></div>
+            <div class="metric"><strong>1,500+</strong><span>教育产品用户</span></div>
+          </div>
+        </section>
+
+        <section class="memo-grid">
+          <div class="memo-card">
+            <h2>教育</h2>
+            <p><strong>英属哥伦比亚大学（UBC）</strong><br />国际关系 &amp; 数据科学 学士<br />预计 2029</p>
+          </div>
+          <div class="memo-card">
+            <h2>核心简介</h2>
+            <p id="core-zh">系统级构建者，工作横跨 AI、社会系统与产品战略。具备从系统设计、落地交付到线上运营的完整经验，强调快速执行、可扩展系统设计与真实环境中的可验证影响。</p>
+            <h2>关键优势</h2>
+            <ul>
+              <li>在约束条件下完成系统架构与真实部署。</li>
+              <li>用行为与机制设计提升协同效率。</li>
+              <li>从 0 到 1 的快速闭环执行。</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="projects">
+          <h2>项目 / 系统</h2>
+
+          <h3>Tarya — AI 驱动的现实社交系统</h3>
+          <div class="role">Founder &amp; Product Lead</div>
+          <ul>
+            <li><strong>是什么：</strong> 用 AI 促进线下协作与深度连接的社交系统，而非仅停留在在线互动。</li>
+            <li><strong>问题：</strong> 传统社交平台以“停留时长”为核心优化目标，导致低信号、浅连接。</li>
+            <li><strong>如何落地：</strong> 设计系统架构、AI 人设逻辑与匹配机制，主导从概念到上线的端到端交付。</li>
+            <li><strong>影响：</strong> 已作为真实系统上线，并根据用户行为与反馈持续迭代。</li>
+          </ul>
+
+          <h3>AI 教育创业项目（已被并购）</h3>
+          <div class="role">Co-Founder</div>
+          <ul>
+            <li><strong>是什么：</strong> 针对传统学习流程低效问题的 AI 教育产品。</li>
+            <li><strong>问题：</strong> 现有教育解决方案摩擦高、个性化不足。</li>
+            <li><strong>如何落地：</strong> 识别核心痛点，从零构建 MVP，并基于用户反馈快速迭代。</li>
+            <li><strong>影响：</strong> 用户规模超过 1,500，2 个月内实现盈利，并完成早期并购。</li>
+          </ul>
+
+          <h3>大型社会协同平台</h3>
+          <div class="role">System Designer</div>
+          <ul>
+            <li><strong>是什么：</strong> 统一的信息与协同平台，支持跨群体沟通与协作。</li>
+            <li><strong>问题：</strong> 信息流割裂、跨组织协作效率低。</li>
+            <li><strong>如何落地：</strong> 在真实运营约束下设计系统架构与 AI 供需匹配机制。</li>
+            <li><strong>影响：</strong> 支持现实组织中的规模化信息分发与协作。</li>
+          </ul>
+
+          <h3>EcoSort — 公共基础设施的行为型 AI</h3>
+          <div class="role">Product &amp; System Designer</div>
+          <ul>
+            <li><strong>是什么：</strong> 在学校场景部署的 AI 辅助垃圾分类系统。</li>
+            <li><strong>问题：</strong> 投放现场的认知负担与行为摩擦导致持续性分类错误。</li>
+            <li><strong>如何落地：</strong> 运用行为心理学，借由即时反馈与系统级干预降低认知负担。</li>
+            <li><strong>影响：</strong> 在公共场景真实部署并显著改善行为，无需教育或强制。</li>
+          </ul>
+
+          <h3>AI × 现实 / 虚拟交互</h3>
+          <div class="role">Research-oriented System Exploration</div>
+          <ul>
+            <li><strong>是什么：</strong> 探索 AI 介导下现实与虚拟之间的交互系统。</li>
+            <li><strong>问题：</strong> 缺乏对 AI 影响感知、信任与决策的理解。</li>
+            <li><strong>如何落地：</strong> 设计系统概念与研究框架，而非直接产品化。</li>
+            <li><strong>影响：</strong> 为规模化人机系统设计提供方向参考。</li>
+          </ul>
+
+          <h3>AI × 硬件生产力系统</h3>
+          <div class="role">Future Systems Builder</div>
+          <ul>
+            <li><strong>是什么：</strong> 探索 AI 与硬件结合的生产力系统。</li>
+            <li><strong>问题：</strong> 纯软件工具难以重塑基础生产力约束。</li>
+            <li><strong>如何落地：</strong> 设计结合 AI 代理与物理流程的系统架构。</li>
+            <li><strong>影响：</strong> 建立下一代人机生产力系统的技术方向。</li>
+          </ul>
+
+          <h3>研究与微型实验 — 世界模型与自治 AI 代理</h3>
+          <div class="role">System Exploration</div>
+          <ul>
+            <li><strong>是什么：</strong> AI 代理在模拟世界中感知、行动与演化的系统沙盒。</li>
+            <li><strong>问题：</strong> 真实世界试验成本高，需要安全的制度级沙盒。</li>
+            <li><strong>如何落地：</strong> 构建世界模型概念与多智能体模拟环境。</li>
+            <li><strong>影响：</strong> 用于研究协同、决策与涌现社会行为。</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>外包开发与快速交付</h2>
+          <p><strong>外部开发项目（×4）</strong></p>
+          <ul>
+            <li>以合同开发者身份交付多项短周期端到端软件系统。</li>
+            <li>独立完成需求澄清、系统设计、实现与部署。</li>
+            <li>在高时间压力下快速响应变化并交付结果。</li>
+          </ul>
+        </section>
+
+        <section class="skills">
+          <h2>技能与技术栈</h2>
+          <div class="grid-2">
+            <div>
+              <h3>执行速度</h3>
+              <p class="muted" id="exec-zh">48 小时功能 Demo · 约 1 周端到端交付 · 快速验证与迭代</p>
+
+              <h3>编程与数据</h3>
+              <div>
+                <span class="pill">Python</span>
+                <span class="pill">R</span>
+                <span class="pill">SQL</span>
+                <span class="pill">Java</span>
+                <span class="pill">JavaScript / TypeScript</span>
+              </div>
+
+              <h3>AI / ML 与智能系统</h3>
+              <div>
+                <span class="pill">机器学习应用</span>
+                <span class="pill">AI 代理系统</span>
+                <span class="pill">世界模型与多智能体模拟</span>
+                <span class="pill">LLM 系统集成</span>
+                <span class="pill">Prompt Engineering / Vibe Coding</span>
+              </div>
+
+              <h3>全栈与交付</h3>
+              <div>
+                <span class="pill">全栈 Web 开发</span>
+                <span class="pill">后端 API</span>
+                <span class="pill">关系型数据库设计</span>
+                <span class="pill">快速原型</span>
+              </div>
+            </div>
+            <div>
+              <h3>生产与部署</h3>
+              <div>
+                <span class="pill">Supabase</span>
+                <span class="pill">Cloudflare</span>
+                <span class="pill">Workers</span>
+                <span class="pill">Pages</span>
+                <span class="pill">DNS / CDN</span>
+              </div>
+
+              <h3>产品与战略</h3>
+              <div>
+                <span class="pill">产品战略</span>
+                <span class="pill">从 0 到 1</span>
+                <span class="pill">商业建模</span>
+                <span class="pill">市场分析</span>
+                <span class="pill">激励与机制设计</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-2">
+          <div>
+            <h2>语言</h2>
+            <p>英语（流利），中文（母语）</p>
+          </div>
+          <div>
+            <h2>成就与认证</h2>
+            <ul>
+              <li>国际经济学奥林匹克（IEO）</li>
+              <li>美国计算机奥林匹克（USACO）</li>
+              <li>CFA Institute — Investment Foundations Certificate</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2>兴趣</h2>
+          <p>系统级设计、力量训练、音乐创作</p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll(".lang-toggle button");
+    const langs = document.querySelectorAll(".lang");
+    const setLang = (lang) => {
+      langs.forEach((node) => {
+        node.classList.toggle("is-active", node.dataset.lang === lang);
+      });
+      buttons.forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
+      });
+    };
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => setLang(btn.dataset.lang));
+    });
+    const exportBtn = document.getElementById("export-pdf");
+    const saveHtmlBtn = document.getElementById("save-html");
+    if (exportBtn) {
+      exportBtn.addEventListener("click", () => window.print());
+    }
+
+    const langSelect = document.getElementById("lang-select");
+    const nameInput = document.getElementById("name-input");
+    const locationInput = document.getElementById("location-input");
+    const emailInput = document.getElementById("email-input");
+    const linkedinInput = document.getElementById("linkedin-input");
+    const githubInput = document.getElementById("github-input");
+    const taglineInput = document.getElementById("tagline-input");
+    const impactInput = document.getElementById("impact-input");
+    const coreInput = document.getElementById("core-input");
+    const execInput = document.getElementById("exec-input");
+
+    const titleSize = document.getElementById("title-size");
+    const bodySize = document.getElementById("body-size");
+    const lineHeight = document.getElementById("line-height");
+    const padTop = document.getElementById("pad-top");
+    const padSide = document.getElementById("pad-side");
+
+    const nameDisplay = document.getElementById("name-display");
+    const locationDisplay = document.getElementById("location-display");
+    const contactDisplay = document.getElementById("contact-display");
+
+    const updateContact = () => {
+      const email = emailInput.value.trim();
+      const linkedin = linkedinInput.value.trim();
+      const github = githubInput.value.trim();
+      const emailHtml = email ? `<a href="mailto:${email}">${email}</a>` : "";
+      const parts = [
+        email ? `${emailHtml}` : "",
+        linkedin ? `${linkedin}` : "",
+        github ? `${github}` : "",
+      ].filter(Boolean);
+      contactDisplay.innerHTML = parts.join(" · ");
+    };
+
+    const syncLangFields = () => {
+      const lang = langSelect.value;
+      const tagline = document.getElementById(`tagline-${lang}`);
+      const impact = document.getElementById(`impact-${lang}`);
+      const core = document.getElementById(`core-${lang}`);
+      const exec = document.getElementById(`exec-${lang}`);
+
+      taglineInput.value = tagline.textContent.trim();
+      impactInput.value = impact.textContent.trim();
+      coreInput.value = core.textContent.trim();
+      execInput.value = exec.textContent.trim();
+    };
+
+    const writeLangFields = () => {
+      const lang = langSelect.value;
+      document.getElementById(`tagline-${lang}`).textContent = taglineInput.value;
+      document.getElementById(`impact-${lang}`).textContent = impactInput.value;
+      document.getElementById(`core-${lang}`).textContent = coreInput.value;
+      document.getElementById(`exec-${lang}`).textContent = execInput.value;
+    };
+
+    langSelect.addEventListener("change", () => {
+      syncLangFields();
+      setLang(langSelect.value);
+    });
+
+    nameInput.addEventListener("input", () => {
+      nameDisplay.textContent = nameInput.value;
+    });
+    locationInput.addEventListener("input", () => {
+      locationDisplay.textContent = locationInput.value;
+    });
+    [emailInput, linkedinInput, githubInput].forEach((el) => {
+      el.addEventListener("input", updateContact);
+    });
+    [taglineInput, impactInput, coreInput, execInput].forEach((el) => {
+      el.addEventListener("input", writeLangFields);
+    });
+
+    titleSize.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--title-size", `${titleSize.value}px`);
+    });
+    bodySize.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--body-size", `${bodySize.value}px`);
+    });
+    lineHeight.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--line-height", lineHeight.value);
+    });
+    padTop.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--page-pad-top", `${padTop.value}mm`);
+    });
+    padSide.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--page-pad-side", `${padSide.value}mm`);
+    });
+
+    const syncFormAttributes = () => {
+      document.querySelectorAll("input, textarea, select").forEach((el) => {
+        if (el.tagName === "TEXTAREA") {
+          el.textContent = el.value;
+        } else if (el.tagName === "SELECT") {
+          [...el.options].forEach((opt) => {
+            opt.selected = opt.value === el.value;
+          });
+        } else {
+          el.setAttribute("value", el.value);
+        }
+      });
+    };
+
+    if (saveHtmlBtn) {
+      saveHtmlBtn.addEventListener("click", async () => {
+        syncFormAttributes();
+        const html = "<!doctype html>\n" + document.documentElement.outerHTML;
+        try {
+          if (window.showSaveFilePicker) {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: "index.html",
+              types: [{ description: "HTML File", accept: { "text/html": [".html"] } }],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(html);
+            await writable.close();
+          } else {
+            const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "index.html";
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+
+    syncLangFields();
+  </script>
+</body>
+</html>

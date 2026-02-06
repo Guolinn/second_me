@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/friends · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+  <style>
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/entry</a>
+        <a href="friends.html">/friends</a>
+        <a href="connect.html">/connect</a>
+        <a href="card.html">/card</a>
+        <a href="everything.html">/everything</a>
+      </div>
+      <a class="login" href="login.html">切换账号</a>
+    </nav>
+
+    <section class="section">
+      <h1>/friends</h1>
+      <p><strong>更多内容（朋友可见）</strong></p>
+      <p>更详细的项目进展、计划中的活动、以及近期日程摘要。</p>
+      <div>
+        <span class="badge">私密项目：City Lab v2</span>
+        <span class="badge">下周活动：城市漫游</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>我最近在关注</h2>
+      <p>标记你的兴趣点，我会看到你最关心的主题。</p>
+      <div class="actions">
+        <button class="btn outline" onclick="markInterest('生活系统')">生活系统</button>
+        <button class="btn outline" onclick="markInterest('城市探索')">城市探索</button>
+        <button class="btn outline" onclick="markInterest('叙事与品牌')">叙事与品牌</button>
+      </div>
+      <p id="interest-status" style="margin-top:8px;"></p>
+    </section>
+
+    <div class="footer-nav">
+      <button class="btn outline" onclick="location.href='live.html'">回到 /live</button>
+      <button class="btn outline" onclick="location.href='everything.html'">回到 /everything</button>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    function checkRole() {
+      const role = localStorage.getItem('role');
+      if (role !== 'friend') {
+        window.location.href = 'login.html';
+      }
+    }
+
+    async function markInterest(topic) {
+      const statusEl = document.getElementById('interest-status');
+      statusEl.textContent = 'Recording...';
+
+      const { error } = await supabase.from('friend_interests').insert([{ topic }]);
+
+      if (error) {
+        statusEl.textContent = 'Failed to record. Try again.';
+        return;
+      }
+
+      statusEl.textContent = 'Recorded. Thank you.';
+    }
+
+    checkRole();
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

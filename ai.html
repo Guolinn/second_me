@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/ai · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+  <style>
+    .chatbox { border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: #fff; display: grid; gap: 10px; }
+    .chatlog { display: grid; gap: 8px; max-height: 240px; overflow: auto; font-size: 0.95rem; }
+    .msg { padding: 8px 10px; border-radius: 12px; max-width: 90%; }
+    .msg.ai { background: #f1f7f2; align-self: flex-start; }
+    .msg.me { background: #fff2e6; align-self: flex-end; }
+    .chat-input { display: flex; gap: 8px; }
+    .chat-input input { flex: 1; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--line); font-family: "Nunito", sans-serif; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/</a>
+        <a href="now.html">/now</a>
+        <a href="build.html">/build</a>
+        <a href="mind.html">/mind</a>
+        <a href="proof.html">/proof</a>
+        <a href="connect.html">/connect</a>
+        <a href="live.html">/live</a>
+        <a href="play.html">/play</a>
+        <a href="ai.html">/ai</a>
+        <a href="card.html">/card</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <h1>/ai</h1>
+    <p>This AI represents how I think and speak — trained on my projects, ideas, and writing.</p>
+    <p>Ask about my projects, ideas, or how I approach building things.</p>
+
+    <div class="chatbox">
+      <div class="chatlog" id="chatlog">
+        <div class="msg ai">Hi, I’m Guolin AI. What do you want to explore?</div>
+      </div>
+      <div class="chat-input">
+        <input id="chat-input" type="text" placeholder="Ask: What are you building now?" />
+        <button class="btn" onclick="sendMsg()">Send</button>
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="btn outline" onclick="location.href='card.html'">下一站：/card</button>
+      <button class="btn outline" onclick="location.href='play.html'">回到 /play</button>
+    </div>
+  </main>
+
+  <script>
+    function sendMsg() {
+      const input = document.getElementById('chat-input');
+      const chatlog = document.getElementById('chatlog');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'msg me';
+      userMsg.textContent = text;
+      chatlog.appendChild(userMsg);
+
+      const aiMsg = document.createElement('div');
+      aiMsg.className = 'msg ai';
+      aiMsg.textContent = "I build systems that outlive products, and I keep writing until the idea becomes a tool.";
+      chatlog.appendChild(aiMsg);
+
+      chatlog.scrollTop = chatlog.scrollHeight;
+      input.value = '';
+    }
+
+    document.getElementById('chat-input').addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMsg();
+      }
+    });
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

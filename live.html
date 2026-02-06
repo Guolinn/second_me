@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/live · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/entry</a>
+        <a href="live.html">/live</a>
+        <a href="now.html">/now</a>
+        <a href="play.html">/play</a>
+        <a href="everything.html">/everything</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <section class="section">
+      <h1>/live</h1>
+      <p>这是“地图”，记录我与城市的关系。</p>
+    </section>
+
+    <section class="section">
+      <h2>Location</h2>
+      <div class="flow" id="location-list">
+        <div class="flow-item">Loading...</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Activity</h2>
+      <div class="flow" id="activity-list">
+        <div class="flow-item">Loading...</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Privacy</h2>
+      <p>Precise location is available only after login and explicit approval.</p>
+    </section>
+
+    <div class="footer-nav">
+      <button class="btn outline" onclick="location.href='play.html'">下一站：/play</button>
+      <button class="btn outline" onclick="location.href='connect.html'">回到 /connect</button>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    async function loadLive() {
+      const locationList = document.getElementById('location-list');
+      const activityList = document.getElementById('activity-list');
+
+      const { data: locationData } = await supabase
+        .from('updates')
+        .select('content, created_at')
+        .eq('kind', 'location')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      const { data: activityData } = await supabase
+        .from('updates')
+        .select('content, created_at')
+        .eq('kind', 'activity')
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      locationList.innerHTML = (locationData && locationData.length)
+        ? locationData.map(item => `<div class="flow-item">${item.content}</div>`).join('')
+        : '<div class="flow-item">No location updates yet.</div>';
+
+      activityList.innerHTML = (activityData && activityData.length)
+        ? activityData.map(item => `<div class="flow-item">${item.content}</div>`).join('')
+        : '<div class="flow-item">No activity updates yet.</div>';
+    }
+
+    loadLive();
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

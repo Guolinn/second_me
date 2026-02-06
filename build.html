@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/build · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/entry</a>
+        <a href="build.html">/build</a>
+        <a href="build-tarya.html">/build/tarya</a>
+        <a href="proof.html">/proof</a>
+        <a href="everything.html">/everything</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <section class="section">
+      <h1>/build</h1>
+      <p>这里是“工作室”。项目只是表面，更重要的是方法与持续迭代。</p>
+    </section>
+
+    <section class="section">
+      <h2>Projects</h2>
+      <div class="flow" id="project-list">
+        <div class="flow-item">Loading...</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Method</h2>
+      <div class="flow">
+        <div class="flow-item">Start with a broken loop.</div>
+        <div class="flow-item">Design the system, then ship the smallest working piece.</div>
+        <div class="flow-item">Instrument feedback, iterate weekly.</div>
+      </div>
+    </section>
+
+    <div class="footer-nav">
+      <button class="btn outline" onclick="location.href='proof.html'">下一站：/proof</button>
+      <button class="btn outline" onclick="location.href='mind.html'">回到 /mind</button>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    async function loadProjects() {
+      const list = document.getElementById('project-list');
+      const { data, error } = await supabase
+        .from('projects')
+        .select('name, one_liner, status')
+        .order('created_at', { ascending: false })
+        .limit(6);
+
+      if (error || !data || data.length === 0) {
+        list.innerHTML = '<div class="flow-item">No projects yet.</div>';
+        return;
+      }
+
+      list.innerHTML = data.map(item => `
+        <div class="flow-item"><strong>${item.name}</strong> — ${item.one_liner || ''} ${item.status ? '(' + item.status + ')' : ''}</div>
+      `).join('');
+    }
+
+    loadProjects();
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

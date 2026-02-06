@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guolin Wang — Everything</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/entry</a>
+        <a href="now.html">/now</a>
+        <a href="build.html">/build</a>
+        <a href="mind.html">/mind</a>
+        <a href="proof.html">/proof</a>
+        <a href="connect.html">/connect</a>
+        <a href="live.html">/live</a>
+        <a href="play.html">/play</a>
+        <a href="ai.html">/ai</a>
+        <a href="card.html">/card</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <section class="section">
+      <div class="eyebrow">Everything</div>
+      <h1>I build systems —<br />not just projects.</h1>
+      <p class="quote">This site is my whole person, not a resume.</p>
+      <p>Three lenses, one life: a manuscript, a city atlas, and a living studio.</p>
+      <div class="footer-nav">
+        <button class="btn" onclick="location.href='mind.html'">进入 Manuscript</button>
+        <button class="btn outline" onclick="location.href='live.html'">进入 Atlas</button>
+        <button class="btn outline" onclick="location.href='build.html'">进入 Studio</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Now</h2>
+      <div class="flow" id="now-list">
+        <div class="flow-item">Loading...</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Choose a Lens</h2>
+      <div class="flow">
+        <div class="flow-item"><strong>Life Manuscript</strong> · <a href="mind.html">/mind</a> — 章节、片段、内心的语言。</div>
+        <div class="flow-item"><strong>City & Mind Atlas</strong> · <a href="live.html">/live</a> — 城市、轨迹、地点与此刻的坐标。</div>
+        <div class="flow-item"><strong>Living Studio</strong> · <a href="build.html">/build</a> — 创作中的系统、方法与输出。</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Reading Path</h2>
+      <p>建议顺序：/now → /mind → /build → /proof → /connect → /live → /play → /ai → /card</p>
+      <div class="footer-nav">
+        <button class="btn outline" onclick="location.href='now.html'">下一站：/now</button>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Guolin Wang · Living Archive
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    async function loadNow() {
+      const list = document.getElementById('now-list');
+      const { data, error } = await supabase
+        .from('updates')
+        .select('content, created_at')
+        .eq('kind', 'now')
+        .order('created_at', { ascending: false })
+        .limit(4);
+
+      if (error || !data || data.length === 0) {
+        list.innerHTML = '<div class="flow-item">No updates yet.</div>';
+        return;
+      }
+
+      list.innerHTML = data.map(item => `
+        <div class="flow-item">${item.content}</div>
+      `).join('');
+    }
+
+    loadNow();
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

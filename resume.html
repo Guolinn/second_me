@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guolin Wang — CV</title>
+  <style>
+    :root {
+      --bg: #f6f2ea;
+      --ink: #1e1a16;
+      --muted: #5a5147;
+      --accent: #0f3d2e;
+      --card: #fffaf2;
+      --rule: #d6cbbf;
+      --title-size: 36px;
+      --body-size: 16px;
+      --line-height: 1.58;
+      --page-pad-top: 16mm;
+      --page-pad-side: 18mm;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Alegreya", "Garamond", "Georgia", serif;
+      color: var(--ink);
+      background: #f4f0e9;
+      line-height: var(--line-height);
+      font-size: var(--body-size);
+    }
+    .layout {
+      display: flex;
+      gap: 18px;
+      padding: 18px 18px 36px;
+      align-items: flex-start;
+    }
+    .editor {
+      width: 320px;
+      background: #fffdf8;
+      border: 1px solid var(--rule);
+      padding: 14px;
+      position: sticky;
+      top: 18px;
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+    }
+    .editor h2 {
+      font-size: 13px;
+      margin: 0 0 8px;
+      text-transform: none;
+      letter-spacing: 0.2px;
+      color: var(--accent);
+    }
+    .editor label {
+      display: block;
+      margin: 10px 0 4px;
+      color: var(--muted);
+    }
+    .editor input[type="text"],
+    .editor textarea,
+    .editor select {
+      width: 100%;
+      border: 1px solid var(--rule);
+      padding: 6px 8px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+      background: #fff;
+    }
+    .editor textarea { min-height: 74px; resize: vertical; }
+    .editor input[type="range"] { width: 100%; }
+    .editor-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .editor-actions button {
+      flex: 1;
+      border: 1px solid var(--rule);
+      background: #fff;
+      padding: 7px 8px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .page {
+      width: 210mm;
+      margin: 18mm auto 24mm;
+      padding: var(--page-pad-top) var(--page-pad-side);
+      background: #fffdfa;
+      border: 1px solid var(--rule);
+      box-shadow: 0 6px 14px rgba(30, 26, 22, 0.05);
+      position: relative;
+    }
+    header {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 8px 12px;
+      border: 1px solid #d8cfc3;
+      border-left: 4px solid var(--accent);
+      background: #fbf8f2;
+      padding: 10px 12px 9px;
+      margin-bottom: 12px;
+    }
+    .header-left { display: grid; gap: 4px; }
+    .avatar {
+      width: 72px;
+      height: 82px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid #d8cfc3;
+    }
+    .page-controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .header-right {
+      display: grid;
+      align-content: start;
+      justify-items: end;
+      gap: 4px;
+    }
+    h1 {
+      font-size: var(--title-size);
+      margin: 0;
+      letter-spacing: 0.1px;
+      line-height: 1.08;
+    }
+    .meta {
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    #location-display {
+      text-transform: none;
+      letter-spacing: 0.4px;
+      font-size: 11px;
+      opacity: 0.95;
+    }
+    #thinking-display {
+      display: inline-block;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      letter-spacing: 0.2px;
+      color: var(--accent);
+      border: 1px solid #bad2c8;
+      background: linear-gradient(180deg, #f6fcf9 0%, #edf7f2 100%);
+      padding: 3px 7px;
+      width: fit-content;
+      border-radius: 3px;
+    }
+    #thinking-display a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      margin-left: 4px;
+    }
+    #contact-display {
+      padding-top: 6px;
+      border-top: 1px solid #e3d8cb;
+      max-width: 100%;
+      white-space: nowrap;
+      font-size: 11px;
+      letter-spacing: 0.1px;
+    }
+    .tagline {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--accent);
+      display: none;
+    }
+    .lang-toggle { display: flex; gap: 6px; margin-top: 0; }
+    .lang-toggle button {
+      border: 1px solid #cfc2b3;
+      background: #fff;
+      padding: 3px 7px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .lang-toggle button[aria-pressed="true"] {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .actions { display: flex; gap: 6px; margin-top: 0; }
+    .actions button {
+      border: 1px solid #cfc2b3;
+      background: #fffefc;
+      padding: 3px 8px;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .lang { display: none; }
+    .lang.is-active { display: block; }
+    section { margin: 12px 0; }
+    p { margin: 5px 0 9px; }
+    .memo-hero {
+      border: 1px solid #d8cfc3;
+      border-left: 4px solid #2d5a49;
+      background: #faf6ee;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .impact-note {
+      margin-top: 0;
+      margin-bottom: 4px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .metric {
+      border: 1px solid #ded4c7;
+      background: #fffdfa;
+      padding: 8px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 16px;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .metric span {
+      display: block;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .memo-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.35fr;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .memo-card {
+      border: 1px solid #ddd2c3;
+      background: #fffefb;
+      padding: 10px 12px;
+    }
+    .edu-inline {
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 12px;
+      color: var(--muted);
+      border-bottom: 1px dashed #d8cfc3;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+    .memo-card h2 {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-size: 16.5px;
+      margin: 0 0 5px 0;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      color: var(--accent);
+    }
+    h3 {
+      font-size: 14.5px;
+      margin: 8px 0 2px 0;
+    }
+    .role {
+      font-style: italic;
+      color: var(--muted);
+      margin: 0 0 6px 0;
+    }
+    ul { margin: 3px 0 7px 18px; padding: 0; }
+    li { margin: 2px 0; }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      font-size: 12px;
+      margin: 3px 6px 0 0;
+      background: #fff;
+    }
+    .skills h3 { margin-top: 8px; }
+    .muted { color: var(--muted); }
+    .soft-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rule), transparent);
+      margin: 18px 0 8px;
+    }
+    section { page-break-inside: auto; }
+    .memo-hero, .memo-card, .project-feature, .project-secondary, .exploring-card {
+      page-break-inside: avoid;
+    }
+    .projects h3 {
+      margin-top: 10px;
+      padding-top: 5px;
+      border-top: 1px solid #dfd2c3;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .project-feature {
+      border: 1px solid #d7cdc0;
+      background: #fff;
+      padding: 9px 10px 7px;
+      margin-bottom: 8px;
+      box-shadow: inset 0 3px 0 #d8c9b7;
+    }
+    .project-feature h3 {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
+      margin-bottom: 4px;
+    }
+    .project-meta {
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 10.5px;
+      color: var(--muted);
+      margin-bottom: 5px;
+      letter-spacing: 0.1px;
+    }
+    .projects ul {
+      padding-left: 18px;
+      margin-left: 0;
+    }
+    .projects li {
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 3px 0;
+    }
+    .project-secondary {
+      border: 1px solid #e0d7cb;
+      background: #fdfbf8;
+      padding: 7px 9px 6px;
+      margin-top: 4px;
+    }
+    .project-secondary h3 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      border-top: 0;
+      padding-top: 0;
+    }
+    .skills-list h3 {
+      margin-top: 8px;
+      margin-bottom: 3px;
+      font-size: 14px;
+    }
+    .skills-list ul {
+      margin: 1px 0 6px 14px;
+      padding: 0;
+    }
+    .skills-list li {
+      margin: 2px 0;
+      font-size: 12.5px;
+      line-height: 1.3;
+    }
+    .skill-note {
+      font-family: "IBM Plex Mono", "Menlo", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .credentials-compact h2 {
+      margin-bottom: 3px;
+    }
+    .credentials-compact ul {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+    .credentials-compact li {
+      margin: 2px 0;
+      line-height: 1.3;
+      font-size: 12.5px;
+    }
+    .lang-zh .credentials-compact h2 {
+      font-size: 16px;
+    }
+    .lang-zh .credentials-compact li {
+      font-size: 12px;
+      line-height: 1.32;
+    }
+    .exploring-card {
+      border: 1px dashed #cdbda9;
+      background: #fffdfa;
+      padding: 12px 14px 10px;
+    }
+    .exploring-card h3 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      border-top: 0;
+      padding-top: 0;
+    }
+    .exploring-card ul {
+      margin: 3px 0 7px 18px;
+      padding: 0;
+    }
+    .exploring-card li {
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 3px 0;
+    }
+
+    @media screen and (max-width: 760px) {
+      .layout { padding: 0; flex-direction: column; }
+      .editor { width: auto; position: static; border: 0; }
+      .page { margin: 0; border: 0; border-radius: 0; box-shadow: none; width: auto; }
+      header { grid-template-columns: 1fr; }
+      .header-right { justify-items: start; }
+      .page-controls { position: static; margin: 6px 0 0; }
+      #contact-display { white-space: normal; }
+      .metric-strip, .memo-grid { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      h1 { font-size: 30px; }
+    }
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { background: #fff; }
+      .layout { padding: 0; }
+      .editor, .page-controls { display: none; }
+      .page {
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        width: auto;
+        padding: 0;
+      }
+      a { color: var(--ink); text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="editor" aria-label="Editor">
+      <h2>Editor</h2>
+      <label for="lang-select">Edit Language</label>
+      <select id="lang-select">
+        <option value="en">English</option>
+        <option value="zh">中文</option>
+      </select>
+
+      <label for="name-input">Name</label>
+      <input id="name-input" type="text" value="Guolin Wang" />
+
+      <label for="location-input">Location</label>
+      <input id="location-input" type="text" value="Vancouver, Canada • Dalian, China" />
+
+      <label for="email-input">Email</label>
+      <input id="email-input" type="text" value="guolinn.wang@gmail.com" />
+
+      <label for="linkedin-input">LinkedIn</label>
+      <input id="linkedin-input" type="text" value="linkedin.com/in/guolin-wang" />
+
+      <label for="github-input">GitHub / Portfolio</label>
+      <input id="github-input" type="text" value="github.com/Guolinn" />
+
+      <label for="tagline-input">Tagline</label>
+      <input id="tagline-input" type="text" value="Thinking → Building: guolin.wang" />
+
+      <label for="impact-input">Impact Line</label>
+      <textarea id="impact-input">Identifying problems, learning fast, and turning technology into systems that solve them in practice.</textarea>
+
+      <label for="core-input">Summary</label>
+      <textarea id="core-input">System-level builder who applies AI, technology, and product thinking to solve complex problems across social systems, public policy, and economic contexts. Experienced in rapidly learning new domains, designing end-to-end systems, and shipping real-world solutions under practical constraints.</textarea>
+
+      <label for="exec-input">Execution Speed Line</label>
+      <textarea id="exec-input">Functional demos in 48 hours · End-to-end delivery in ~1 week · Feedback-driven iteration</textarea>
+
+      <div class="soft-rule"></div>
+      <label for="title-size">Title Size</label>
+      <input id="title-size" type="range" min="28" max="44" value="36" />
+
+      <label for="body-size">Body Size</label>
+      <input id="body-size" type="range" min="13" max="18" value="16" />
+
+      <label for="line-height">Line Height</label>
+      <input id="line-height" type="range" min="1.3" max="1.8" step="0.02" value="1.58" />
+
+      <label for="pad-top">Top Padding (mm)</label>
+      <input id="pad-top" type="range" min="10" max="24" value="16" />
+
+      <label for="pad-side">Side Padding (mm)</label>
+      <input id="pad-side" type="range" min="12" max="24" value="18" />
+
+      <div class="editor-actions">
+        <button type="button" id="save-html">Save HTML</button>
+      </div>
+    </aside>
+
+    <main class="page">
+      <header>
+        <div class="header-left">
+          <h1 id="name-display">Guolin Wang</h1>
+          <div class="meta" id="location-display">Vancouver, Canada • Dalian, China</div>
+          <div class="meta" id="thinking-display">Thinking → Building · Website:<a href="https://guolin.wang" target="_blank" rel="noreferrer">guolin.wang</a></div>
+          <div class="meta" id="contact-display">guolinn.wang@gmail.com · linkedin.com/in/guolin-wang · github.com/Guolinn</div>
+        </div>
+        <div class="header-right">
+          <img class="avatar" src="assets/avatar.jpg" alt="Guolin Wang" />
+        </div>
+      </header>
+
+      <div class="page-controls">
+        <div class="lang-toggle" role="group" aria-label="Language toggle">
+          <button type="button" data-lang="en" aria-pressed="true">English</button>
+          <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+        </div>
+        <div class="actions">
+          <button type="button" id="export-pdf">Export PDF</button>
+        </div>
+      </div>
+
+      <div class="lang lang-en is-active" data-lang="en">
+        <div class="tagline" id="tagline-en">Thinking → Building: guolin.wang</div>
+        <section class="memo-hero">
+          <div class="impact-note" id="impact-en">Identifying problems, learning fast, and turning technology into systems that solve them in practice.</div>
+          <div class="metric-strip">
+            <div class="metric"><strong>48h</strong><span>Functional Demo</span></div>
+            <div class="metric"><strong>~1 Week</strong><span>End-to-End Delivery</span></div>
+            <div class="metric"><strong>17</strong><span>Solutions Designed &amp; Delivered</span></div>
+          </div>
+        </section>
+
+        <section class="memo-card">
+          <div class="edu-inline">Education: University of British Columbia (UBC) · B.A. International Relations &amp; Data Science · Expected 2029</div>
+          <h2>Summary</h2>
+          <p id="core-en">Builder who applies AI, technology, and product thinking to solve complex problems across social systems, public policy, and economic contexts. Experienced in rapidly learning new domains, designing end-to-end systems, and shipping real-world solutions under practical constraints.</p>
+        </section>
+
+        <section class="projects">
+          <h2>Projects / Systems</h2>
+
+          <article class="project-feature">
+            <h3>Tarya</h3>
+            <div class="project-meta">Founder &amp; Developer · 2025 – Present</div>
+            <ul>
+              <li>Built a persistent AI social agent that gradually develops deep user understanding through continuous interaction, enabling dynamic user modeling beyond static profiles.</li>
+              <li>Designed a needs-driven, deep compatibility AI matching system that aligns users based on underlying preferences, values, and intent, rather than surface-level interest overlap.</li>
+              <li>Led the MVP product design and development, focusing on no in-app chat and supporting and servicing real-world meetings; validated in user testing (9.6/10 avg satisfaction) and progressing toward seed-stage fundraising.</li>
+            </ul>
+          </article>
+
+          <article class="project-feature">
+            <h3>AI Education Research Team — Adaptive Learning Systems (Acquired)</h3>
+            <div class="project-meta">Co-Founder &amp; Product Lead · 2023 – 2024</div>
+            <ul>
+              <li>Co-founded an AI-driven adaptive learning platform addressing educational inequality by shifting AI from passive question-answering to active learning guidance, using ChatGPT 3.5 to scaffold students' learning processes.</li>
+              <li>Led product vision and business model design, translating emerging LLM capabilities into structured instructional flows rather than standalone answers, and designing the end-to-end learning experience and business model.</li>
+              <li>Scaled the beta product to 900+ users within two months, reached early profitability, and improved learning accessibility through targeted laptop support for underserved students; the project was subsequently acquired by an education technology firm.</li>
+            </ul>
+          </article>
+
+          <article class="project-feature">
+            <h3>Government-leading NGO Social Coordination Platform</h3>
+            <div class="project-meta">System Designer · 2025–2026</div>
+            <ul>
+              <li>Identified coordination and information-flow gaps across local organizations and proposed a unified digital platform, actively pitching the solution and driving adoption by a government-affiliated NGO.</li>
+              <li>Designed and delivered a multi-functional coordination system within one week, including news and information distribution, member and organization management, activity participation, feedback submission, and resource exchange with AI-assisted supply-demand matching.</li>
+              <li>Built and deployed the system using a local Supabase backend and Cloudflare-based infrastructure, delivering a production-ready solution under real operational constraints that was formally adopted and used by the organization.</li>
+            </ul>
+          </article>
+
+          <article class="project-feature">
+            <h3>EcoSort — Behavioral AI for Public Infrastructure</h3>
+            <div class="project-meta">Product &amp; System Designer · 2025 – 2026</div>
+            <ul>
+              <li>Identified waste sorting as a behavioral and system-design problem rather than an educational one, reframing disposal points as the starting node of resource circulation and monitoring within sustainable public infrastructure.</li>
+              <li>Designed an AI-assisted intervention system grounded in behavioral psychology, reducing cognitive load at the moment of disposal through immediate feedback and system-level nudges rather than user training or rule memorization.</li>
+              <li>Built and deployed a functional prototype within six days, pitching the solution to a university Student Housing &amp; Community Services department; the system was adopted in a real campus environment and the project won 1st place at a hackathon.</li>
+            </ul>
+          </article>
+
+          <article class="project-secondary">
+            <h3>Others: External Projects</h3>
+            <div class="project-meta">2025–2026</div>
+            <ul>
+              <li>Delivered 9 paid software projects and 8 end-to-end product/system designs for external clients, including a client-facing platform for an education company, a PMO &amp; Gantt-based execution system for a small team, and a data-driven operations platform.</li>
+              <li>Independently translated high-level requirements into production-ready systems and shipped under tight timelines.</li>
+            </ul>
+          </article>
+
+        </section>
+
+        <section>
+          <h2>Exploring</h2>
+          <article class="exploring-card">
+            <h3>AI Agents, World Models &amp; Human-AI Interaction</h3>
+            <div class="project-meta">Independent Research &amp; Prototyping · 2024 – Present</div>
+            <ul>
+              <li>Investigating general-purpose world model systems capable of generating environments and &quot;humans&quot; that perceive, act, and interact under physical and social constraints, enabling AI entities to reason, respond, and evolve within simulated yet realistic worlds.</li>
+              <li>Designing early AI × hardware productivity system concepts, examining how integrating AI agents with physical constraints and workflows can extend human capability beyond software-only interfaces.</li>
+            </ul>
+          </article>
+          <article class="exploring-card" style="margin-top: 10px;">
+            <h3>Independent Research</h3>
+            <div class="project-meta">2024 – Present</div>
+            <ul>
+              <li>Studying historical failures of large-scale international coordination systems (from the League of Nations to the United Nations), exploring how technological and coordination mechanisms could complement or replace ideology-driven state confrontation.</li>
+              <li>Investigating how individual life experiences shape decision-making, modeling how contextual, behavioral, and experiential factors are weighted in human judgment, and how such micro-level dynamics scale into collective and institutional outcomes.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="skills">
+          <h2>Skills &amp; Technical Stack</h2>
+          <div class="grid-2 skills-list">
+            <div>
+              <h3>Programming &amp; Data</h3>
+              <ul>
+                <li>Python · R · SQL</li>
+                <li>Java · JavaScript / TypeScript</li>
+                <li>Data cleaning, analysis &amp; visualization</li>
+              </ul>
+
+              <h3>AI &amp; Intelligent Systems</h3>
+              <ul>
+                <li>AI agent systems</li>
+                <li>LLM integration &amp; prompt design</li>
+                <li>Applied ML (classification, clustering, basic modeling)</li>
+              </ul>
+
+              <h3>Finance, Economics &amp; Analysis</h3>
+              <ul>
+                <li>Financial statement analysis</li>
+                <li>Basic valuation &amp; market sizing</li>
+                <li>Economic reasoning &amp; policy analysis</li>
+                <li>Data-driven decision analysis</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Product &amp; Business</h3>
+              <ul>
+                <li>Product strategy</li>
+                <li>Zero-to-one product execution</li>
+                <li>Business modeling</li>
+                <li>User research &amp; problem framing</li>
+              </ul>
+
+              <h3>Tools &amp; Productivity</h3>
+              <ul>
+                <li>Excel / Google Sheets (analysis, models)</li>
+                <li>PowerPoint / Slides (strategy &amp; pitching)</li>
+                <li>Notion / Docs (specs &amp; documentation)</li>
+                <li>Cursor, AI workflow tools, and agent-assisted productivity stacks</li>
+              </ul>
+
+              <h3>Full-Stack &amp; Infrastructure</h3>
+              <ul>
+                <li>Full-stack web development</li>
+                <li>Backend APIs</li>
+                <li>Relational database design</li>
+                <li>Supabase · Cloudflare · DNS / CDN</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-2 credentials-compact">
+          <div>
+            <h2>Languages</h2>
+            <ul>
+              <li>English (Fluent)</li>
+              <li>Chinese (Native)</li>
+            </ul>
+          </div>
+          <div>
+            <h2>Achievements &amp; Certifications</h2>
+            <ul>
+              <li>2024 USA Computing Olympiad (USACO) Platinum</li>
+              <li>2024 International Economics Olympiad (IEO) OT Top 5</li>
+              <li>CFA Institute — Investment Foundations Certificate</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <div class="lang lang-zh" data-lang="zh">
+        <div class="tagline" id="tagline-zh">影响 / 速度 / 规模</div>
+        <section class="memo-hero">
+          <div class="impact-note" id="impact-zh">多项真实系统已上线并被组织和用户使用；能够在数天内把想法从概念落地到生产环境。</div>
+          <div class="metric-strip">
+            <div class="metric"><strong>48h</strong><span>交付 Demo</span></div>
+            <div class="metric"><strong>1 周</strong><span>端到端交付</span></div>
+            <div class="metric"><strong>17</strong><span>方案交付</span></div>
+          </div>
+        </section>
+
+        <section class="memo-card">
+          <div class="edu-inline">教育：英属哥伦比亚大学（UBC） · 国际关系 &amp; 数据科学 学士 · 预计 2029</div>
+          <h2>摘要</h2>
+          <p id="core-zh">面向复杂问题的系统构建者，运用 AI、技术与产品思维处理社会系统、公共政策与经济情境中的挑战。擅长快速进入新领域、设计端到端系统，并在现实约束下交付可落地方案。</p>
+        </section>
+
+        <section class="projects">
+          <h2>项目 / 系统</h2>
+
+          <article class="project-feature">
+            <h3>Tarya</h3>
+            <div class="project-meta">创始人 &amp; 开发者 · 2025 – 至今</div>
+            <ul>
+              <li>构建持续型 AI 社交代理，通过连续交互形成深度用户理解，实现超越静态画像的动态建模。</li>
+              <li>设计需求驱动的深度兼容 AI 匹配系统，基于底层偏好、价值观与意图对齐用户，而非表层兴趣重合。</li>
+              <li>主导 MVP 产品设计与开发，强调无站内聊天、服务线下面基；用户测试满意度 9.6/10，推进种子轮融资。</li>
+            </ul>
+          </article>
+
+          <article class="project-feature">
+            <h3>AI 教育研究团队 — 自适应学习系统（已被收购）</h3>
+            <div class="project-meta">联合创始人 &amp; 产品负责人 · 2023 – 2024</div>
+            <ul>
+              <li>共同创立 AI 自适应学习平台，从“被动答题”转向“主动学习引导”，以 ChatGPT 3.5 搭建学习过程脚手架。</li>
+              <li>主导产品愿景与商业模式设计，将 LLM 能力转化为结构化教学流程，设计端到端学习体验与商业模型。</li>
+              <li>两个月内将内测规模扩展至 900+ 用户并实现早期盈利；通过笔记本支持提升弱势学生学习可达性，项目被教育科技公司收购。</li>
+            </ul>
+          </article>
+
+          <article class="project-feature">
+            <h3>政府背景 NGO 社会协同平台</h3>
+            <div class="project-meta">系统设计师 · 2025–2026</div>
+            <ul>
+              <li>识别本地组织的协同与信息流断层，提出统一数字平台方案并推动政府背景 NGO 采纳。</li>
+              <li>一周内交付多功能协同系统，涵盖信息发布、成员与组织管理、活动参与、反馈提交，以及 AI 供需匹配的资源交换。</li>
+              <li>基于本地 Supabase 与 Cloudflare 基础设施完成部署，在真实运营约束下交付并被组织正式使用。</li>
+            </ul>
+          </article>
+
+          <article class="project-feature">
+            <h3>EcoSort — 公共基础设施行为型 AI</h3>
+            <div class="project-meta">产品 &amp; 系统设计师 · 2025 – 2026</div>
+            <ul>
+              <li>将垃圾分类定位为行为与系统设计问题，而非教育问题，把投放点重构为资源流转与监测的起点。</li>
+              <li>基于行为心理学设计 AI 干预系统，通过即时反馈与系统级引导降低投放瞬间认知负担。</li>
+              <li>六天内完成原型并向高校后勤部门展示，系统在校园真实场景落地并获黑客松一等奖。</li>
+            </ul>
+          </article>
+
+          <article class="project-secondary">
+            <h3>其他：外部项目</h3>
+            <div class="project-meta">2025–2026</div>
+            <ul>
+              <li>交付 9 个付费软件项目与 8 个端到端产品/系统设计，包括教育公司客户平台、小团队 PMO 与甘特执行系统、数据驱动运营平台等。</li>
+              <li>独立将高层需求转化为可上线系统，并在紧周期下完成交付。</li>
+            </ul>
+          </article>
+        </section>
+
+        <section>
+          <h2>探索研究</h2>
+          <article class="exploring-card">
+            <h3>AI 代理、世界模型与人机交互</h3>
+            <div class="project-meta">独立研究与原型 · 2024 – 至今</div>
+            <ul>
+              <li>研究通用世界模型系统，生成在物理与社会约束下可感知、行动、互动的“人”，使 AI 在逼真的模拟世界中推理、响应与演化。</li>
+              <li>设计 AI × 硬件生产力系统概念，探索 AI 代理与物理流程结合如何超越纯软件能力。</li>
+            </ul>
+          </article>
+          <article class="exploring-card" style="margin-top: 10px;">
+            <h3>独立研究</h3>
+            <div class="project-meta">2024 – 至今</div>
+            <ul>
+              <li>研究大型国际协同体系的历史失败（如国联与联合国），探索技术与协同机制如何补充或替代意识形态驱动的国家对抗。</li>
+              <li>研究个体生活经历如何影响决策，建模情境、行为与经验因素的权重，以及其如何在群体与制度层面产生放大效应。</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="skills">
+          <h2>技能与技术栈</h2>
+          <div class="grid-2 skills-list">
+            <div>
+              <h3>编程与数据</h3>
+              <ul>
+                <li>Python · R · SQL</li>
+                <li>Java · JavaScript / TypeScript</li>
+                <li>数据清洗、分析与可视化</li>
+              </ul>
+
+              <h3>AI 与智能系统</h3>
+              <ul>
+                <li>AI 代理系统</li>
+                <li>LLM 集成与提示词设计</li>
+                <li>机器学习应用（分类、聚类、基础建模）</li>
+              </ul>
+
+              <h3>金融、经济与分析</h3>
+              <ul>
+                <li>财务报表分析</li>
+                <li>基础估值与市场规模测算</li>
+                <li>经济推理与政策分析</li>
+                <li>数据驱动决策分析</li>
+              </ul>
+            </div>
+            <div>
+              <h3>产品与商业</h3>
+              <ul>
+                <li>产品策略</li>
+                <li>从 0 到 1 产品执行</li>
+                <li>商业建模</li>
+                <li>用户研究与问题界定</li>
+              </ul>
+
+              <h3>工具与效率</h3>
+              <ul>
+                <li>Excel / Google Sheets（分析、模型）</li>
+                <li>PowerPoint / Slides（策略与路演）</li>
+                <li>Notion / Docs（规格与文档）</li>
+                <li>Cursor、AI workflow tools 与智能体生产力工具</li>
+              </ul>
+
+              <h3>全栈与基础设施</h3>
+              <ul>
+                <li>全栈 Web 开发</li>
+                <li>后端 API</li>
+                <li>关系型数据库设计</li>
+                <li>Supabase · Cloudflare · DNS / CDN</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="grid-2 credentials-compact">
+          <div>
+            <h2>语言</h2>
+            <ul>
+              <li>英语（流利）</li>
+              <li>中文（母语）</li>
+            </ul>
+          </div>
+          <div>
+            <h2>成就与认证</h2>
+            <ul>
+              <li>2024 美国计算机奥林匹克（USACO）Platinum</li>
+              <li>2024 国际经济学奥林匹克（IEO）OT Top 5</li>
+              <li>CFA Institute — Investment Foundations Certificate</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll(".lang-toggle button");
+    const langs = document.querySelectorAll(".lang");
+    const setLang = (lang) => {
+      langs.forEach((node) => {
+        node.classList.toggle("is-active", node.dataset.lang === lang);
+      });
+      buttons.forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
+      });
+    };
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => setLang(btn.dataset.lang));
+    });
+    const exportBtn = document.getElementById("export-pdf");
+    const saveHtmlBtn = document.getElementById("save-html");
+    if (exportBtn) {
+      exportBtn.addEventListener("click", () => window.print());
+    }
+
+    const langSelect = document.getElementById("lang-select");
+    const nameInput = document.getElementById("name-input");
+    const locationInput = document.getElementById("location-input");
+    const emailInput = document.getElementById("email-input");
+    const linkedinInput = document.getElementById("linkedin-input");
+    const githubInput = document.getElementById("github-input");
+    const taglineInput = document.getElementById("tagline-input");
+    const impactInput = document.getElementById("impact-input");
+    const coreInput = document.getElementById("core-input");
+    const execInput = document.getElementById("exec-input");
+
+    const titleSize = document.getElementById("title-size");
+    const bodySize = document.getElementById("body-size");
+    const lineHeight = document.getElementById("line-height");
+    const padTop = document.getElementById("pad-top");
+    const padSide = document.getElementById("pad-side");
+
+    const nameDisplay = document.getElementById("name-display");
+    const locationDisplay = document.getElementById("location-display");
+    const contactDisplay = document.getElementById("contact-display");
+
+    const updateContact = () => {
+      const email = emailInput.value.trim();
+      const linkedin = linkedinInput.value.trim();
+      const github = githubInput.value.trim();
+      const emailHtml = email ? `<a href="mailto:${email}">${email}</a>` : "";
+      const parts = [
+        email ? `${emailHtml}` : "",
+        linkedin ? `${linkedin}` : "",
+        github ? `${github}` : "",
+      ].filter(Boolean);
+      contactDisplay.innerHTML = parts.join(" · ");
+    };
+
+    const syncLangFields = () => {
+      const lang = langSelect.value;
+      const tagline = document.getElementById(`tagline-${lang}`);
+      const impact = document.getElementById(`impact-${lang}`);
+      const core = document.getElementById(`core-${lang}`);
+      const exec = document.getElementById(`exec-${lang}`);
+
+      taglineInput.value = tagline.textContent.trim();
+      impactInput.value = impact.textContent.trim();
+      coreInput.value = core.textContent.trim();
+      if (exec) execInput.value = exec.textContent.trim();
+    };
+
+    const writeLangFields = () => {
+      const lang = langSelect.value;
+      document.getElementById(`tagline-${lang}`).textContent = taglineInput.value;
+      document.getElementById(`impact-${lang}`).textContent = impactInput.value;
+      document.getElementById(`core-${lang}`).textContent = coreInput.value;
+      const exec = document.getElementById(`exec-${lang}`);
+      if (exec) exec.textContent = execInput.value;
+    };
+
+    langSelect.addEventListener("change", () => {
+      syncLangFields();
+      setLang(langSelect.value);
+    });
+
+    nameInput.addEventListener("input", () => {
+      nameDisplay.textContent = nameInput.value;
+    });
+    locationInput.addEventListener("input", () => {
+      locationDisplay.textContent = locationInput.value;
+    });
+    [emailInput, linkedinInput, githubInput].forEach((el) => {
+      el.addEventListener("input", updateContact);
+    });
+    [taglineInput, impactInput, coreInput, execInput].forEach((el) => {
+      el.addEventListener("input", writeLangFields);
+    });
+
+    titleSize.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--title-size", `${titleSize.value}px`);
+    });
+    bodySize.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--body-size", `${bodySize.value}px`);
+    });
+    lineHeight.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--line-height", lineHeight.value);
+    });
+    padTop.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--page-pad-top", `${padTop.value}mm`);
+    });
+    padSide.addEventListener("input", () => {
+      document.documentElement.style.setProperty("--page-pad-side", `${padSide.value}mm`);
+    });
+
+    const syncFormAttributes = () => {
+      document.querySelectorAll("input, textarea, select").forEach((el) => {
+        if (el.tagName === "TEXTAREA") {
+          el.textContent = el.value;
+        } else if (el.tagName === "SELECT") {
+          [...el.options].forEach((opt) => {
+            opt.selected = opt.value === el.value;
+          });
+        } else {
+          el.setAttribute("value", el.value);
+        }
+      });
+    };
+
+    if (saveHtmlBtn) {
+      saveHtmlBtn.addEventListener("click", async () => {
+        syncFormAttributes();
+        const html = "<!doctype html>\n" + document.documentElement.outerHTML;
+        try {
+          if (window.showSaveFilePicker) {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: "index.html",
+              types: [{ description: "HTML File", accept: { "text/html": [".html"] } }],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(html);
+            await writable.close();
+          } else {
+            const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "index.html";
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+
+    syncLangFields();
+  </script>
+</body>
+</html>

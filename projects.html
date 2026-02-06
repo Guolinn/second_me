@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>项目 · Guolin Wang</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap');
+    :root {
+      --bg: #f7f2ea;
+      --paper: #fffaf1;
+      --ink: #1c1b18;
+      --muted: #5f5a52;
+      --accent: #c56a48;
+      --line: #e4dccf;
+      --shadow: 0 18px 40px rgba(28, 27, 24, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 500px at 10% 0%, #fff7e7 0%, transparent 60%),
+        radial-gradient(700px 450px at 90% 0%, #e9f5ee 0%, transparent 60%),
+        linear-gradient(180deg, #f9f4ec 0%, var(--bg) 100%);
+      line-height: 1.7;
+    }
+    .page { max-width: 980px; margin: 0 auto; padding: 28px 20px 80px; }
+    .nav { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin-bottom: 20px; }
+    .nav a { text-decoration: none; color: var(--ink); font-weight: 600; }
+    .nav .menu { display: flex; gap: 14px; flex-wrap: wrap; }
+    .nav .login { border: 1px solid var(--ink); padding: 6px 10px; border-radius: 999px; }
+    h1 { font-family: "Fraunces", serif; margin: 0 0 12px; font-size: 2.4rem; }
+    .project { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); }
+    .project p { color: var(--muted); margin: 6px 0; }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { border: 1px solid var(--line); background: #fff; padding: 4px 10px; border-radius: 999px; font-size: 0.85rem; }
+    .footer-nav { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .btn { border: none; background: var(--accent); color: #fff; padding: 8px 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+    .btn.outline { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">主页</a>
+        <a href="thoughts.html">想法</a>
+        <a href="projects.html">项目</a>
+        <a href="resume.html">简历</a>
+        <a href="network.html">合作</a>
+        <a href="live.html">实时状态</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <h1>项目集</h1>
+    <div class="project">
+      <strong>LifeOS</strong>
+      <p>让生活目标可视化的产品实验。</p>
+      <div class="tags"><span class="tag">Product</span><span class="tag">System</span></div>
+    </div>
+    <div class="project">
+      <strong>City Lab</strong>
+      <p>结合线下活动与内容策划的城市探索社群。</p>
+      <div class="tags"><span class="tag">Community</span><span class="tag">Experience</span></div>
+    </div>
+    <div class="project">
+      <strong>Brand Story Lab</strong>
+      <p>帮新兴品牌找到清晰的表达方式。</p>
+      <div class="tags"><span class="tag">Narrative</span><span class="tag">Strategy</span></div>
+    </div>
+
+    <div class="footer-nav">
+      <button class="btn outline" onclick="location.href='resume.html'">下一站：简历</button>
+      <button class="btn outline" onclick="location.href='index.html'">回到主页</button>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guolin Wang — Entry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5efe6;
+      --paper: #fffaf1;
+      --ink: #1b1a17;
+      --muted: #6a6257;
+      --accent: #c56a48;
+      --accent-2: #2f5c4a;
+      --line: #e4dccf;
+      --shadow: 0 20px 50px rgba(28, 27, 24, 0.14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Nunito", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 500px at 10% 0%, #fff7e7 0%, transparent 60%),
+        radial-gradient(700px 450px at 90% 0%, #e9f5ee 0%, transparent 60%),
+        linear-gradient(180deg, #f9f4ec 0%, var(--bg) 100%);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .stage {
+      width: min(980px, 94vw);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .stage::after {
+      content: "";
+      position: absolute;
+      inset: -20% -10% auto auto;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(197, 106, 72, 0.18), transparent 65%);
+      filter: blur(10px);
+      pointer-events: none;
+    }
+    h1 {
+      font-family: "Fraunces", "Songti SC", serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      margin: 0 0 6px;
+    }
+    .subtitle { color: var(--muted); margin: 0 0 20px; }
+    .flow {
+      display: grid;
+      gap: 12px;
+    }
+    .door {
+      text-decoration: none;
+      color: var(--ink);
+      display: grid;
+      gap: 6px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e9dfd0;
+    }
+    .door strong { font-size: 1.05rem; }
+    .door span { color: var(--muted); font-size: 0.95rem; }
+    .door:hover { color: var(--accent-2); }
+    .actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: "Nunito", sans-serif;
+      text-decoration: none;
+    }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .note { margin-top: 16px; color: var(--muted); font-size: 0.9rem; }
+    .secret-link {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.18);
+      opacity: 0.2;
+      cursor: pointer;
+      z-index: 20;
+    }
+    .secret-link:hover { opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <section class="stage">
+    <h1>Choose a lens</h1>
+    <p class="subtitle">One person, six ways to see me.</p>
+
+    <div class="flow">
+      <a class="door" href="everything.html"><strong>🧭 Everything</strong>
+        <span>Show me the full picture.</span>
+      </a>
+      <a class="door" href="personal.html"><strong>🧑‍🤝‍🧑 Personal</strong>
+        <span>My life, habits, thoughts, and the human side.</span>
+      </a>
+      <a class="door" href="thinking.html"><strong>🧠 Thinking</strong>
+        <span>How I reason, question, and form insights.</span>
+      </a>
+      <a class="door" href="building.html"><strong>🛠 Building</strong>
+        <span>How I turn ideas into real, working things.</span>
+      </a>
+      <a class="door" href="growing.html"><strong>🌱 Growing</strong>
+        <span>How I learn, reflect, and evolve over time.</span>
+      </a>
+      <a class="door" href="connecting.html"><strong>🌐 Connecting</strong>
+        <span>How I relate to people, collaboration, and networks.</span>
+      </a>
+    </div>
+
+    <div class="actions">
+      <a class="btn primary" href="everything.html">Enter the full archive</a>
+      <a class="btn" href="login.html">Login</a>
+    </div>
+    <p class="note">This is a living archive — not a resume.</p>
+  </section>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

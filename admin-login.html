@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+  <style>
+    .center { display: grid; place-items: center; min-height: 70vh; }
+    .login-card { width: min(420px, 92vw); }
+    .form { display: grid; gap: 10px; }
+    .form input { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); font-family: "Nunito", sans-serif; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="center">
+      <div class="card login-card">
+        <h1>Admin</h1>
+        <p>私人入口（Supabase Auth）。</p>
+        <form class="form" id="admin-form">
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <button class="btn" type="submit">Login</button>
+        </form>
+        <p id="status" style="margin-top:8px;"></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    const form = document.getElementById('admin-form');
+    const statusEl = document.getElementById('status');
+
+    async function redirectIfLoggedIn() {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        window.location.href = 'admin.html';
+      }
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      statusEl.textContent = 'Signing in...';
+
+      const email = form.email.value.trim();
+      const password = form.password.value.trim();
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error || !data.session) {
+        statusEl.textContent = error?.message || 'Login failed.';
+        return;
+      }
+
+      window.location.href = 'admin.html';
+    });
+
+    redirectIfLoggedIn();
+  </script>
+</body>
+</html>

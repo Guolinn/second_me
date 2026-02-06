@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/login · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+  <style>
+    .center { display: grid; place-items: center; min-height: 70vh; }
+    .login-card { width: min(560px, 92vw); text-align: center; }
+    .actions { display: grid; gap: 10px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/</a>
+        <a href="now.html">/now</a>
+        <a href="build.html">/build</a>
+        <a href="mind.html">/mind</a>
+        <a href="proof.html">/proof</a>
+        <a href="connect.html">/connect</a>
+        <a href="live.html">/live</a>
+        <a href="play.html">/play</a>
+        <a href="ai.html">/ai</a>
+        <a href="card.html">/card</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <div class="center">
+      <div class="card login-card">
+        <h1>/login</h1>
+        <p>请选择身份进入（前端原型）。</p>
+        <div class="actions">
+          <button class="btn" onclick="loginAs('admin')">我是本人（管理后台）</button>
+          <button class="btn outline" onclick="loginAs('friend')">朋友访问（更多内容）</button>
+          <button class="btn outline" onclick="location.href='index.html'">返回公共主页</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function loginAs(role) {
+      localStorage.setItem('role', role);
+      if (role === 'admin') {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'friends.html';
+      }
+    }
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>

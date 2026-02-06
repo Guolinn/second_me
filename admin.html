@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/admin · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+  <style>
+    .form { display: grid; gap: 10px; }
+    .form input, .form textarea { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); font-family: "Nunito", sans-serif; }
+    .form textarea { min-height: 120px; resize: vertical; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/entry</a>
+        <a href="everything.html">/everything</a>
+        <a href="connect.html">/connect</a>
+        <a href="friends.html">/friends</a>
+      </div>
+      <a class="login" href="admin-login.html">切换账号</a>
+    </nav>
+
+    <section class="section">
+      <h1>/admin</h1>
+      <p>管理后台（Supabase Auth）。</p>
+      <button class="btn outline" id="logout-btn" type="button">Logout</button>
+    </section>
+
+    <section class="section">
+      <h2>更新内容</h2>
+      <form class="form" id="update-form">
+        <input type="text" name="kind" placeholder="kind (now / note / activity / location)" required />
+        <textarea name="content" placeholder="content" required></textarea>
+        <button class="btn" type="submit">发布更新</button>
+      </form>
+      <p id="update-status" style="margin-top:8px;"></p>
+    </section>
+
+    <section class="section">
+      <h2>好友兴趣数据</h2>
+      <div id="interest-list">Loading...</div>
+      <div class="footer-nav">
+        <button class="btn outline" type="button" onclick="refreshInterests()">刷新</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    async function requireAuth() {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        window.location.href = 'admin-login.html';
+      }
+    }
+
+    async function refreshInterests() {
+      const list = document.getElementById('interest-list');
+      const { data, error } = await supabase
+        .from('friend_interests')
+        .select('topic, created_at')
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error || !data || data.length === 0) {
+        list.innerHTML = '<div class="flow-item">No interests yet.</div>';
+        return;
+      }
+
+      list.innerHTML = data.map(item => `
+        <div class="flow-item"><strong>${item.topic}</strong> — ${new Date(item.created_at).toLocaleString('zh-CN')}</div>
+      `).join('');
+    }
+
+    const form = document.getElementById('update-form');
+    const statusEl = document.getElementById('update-status');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      statusEl.textContent = 'Publishing...';
+
+      const payload = {
+        kind: form.kind.value.trim(),
+        content: form.content.value.trim()
+      };
+
+      const { error } = await supabase.from('updates').insert([payload]);
+
+      if (error) {
+        statusEl.textContent = 'Failed to publish.';
+        return;
+      }
+
+      statusEl.textContent = 'Published.';
+      form.reset();
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'admin-login.html';
+    });
+
+    requireAuth();
+    refreshInterests();
+  </script>
+</body>
+</html>

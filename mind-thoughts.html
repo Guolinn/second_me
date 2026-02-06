@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/mind/thoughts · Guolin Wang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared-style.css" />
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div class="menu">
+        <a href="index.html">/entry</a>
+        <a href="mind.html">/mind</a>
+        <a href="mind-thoughts.html">/mind/thoughts</a>
+        <a href="mind-essays.html">/mind/essays</a>
+        <a href="ai.html">/ai</a>
+        <a href="everything.html">/everything</a>
+      </div>
+      <a class="login" href="login.html">登录</a>
+    </nav>
+
+    <section class="section">
+      <h1>/mind/thoughts</h1>
+      <div class="flow" id="thoughts-list">
+        <div class="flow-item">Loading...</div>
+      </div>
+    </section>
+
+    <div class="footer-nav">
+      <button class="btn outline" onclick="location.href='mind-essays.html'">下一站：/mind/essays</button>
+      <button class="btn outline" onclick="location.href='mind.html'">回到 /mind</button>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    async function loadThoughts() {
+      const list = document.getElementById('thoughts-list');
+      const { data, error } = await supabase
+        .from('thoughts')
+        .select('content, created_at')
+        .order('created_at', { ascending: false })
+        .limit(12);
+
+      if (error || !data || data.length === 0) {
+        list.innerHTML = '<div class="flow-item">No thoughts yet.</div>';
+        return;
+      }
+
+      list.innerHTML = data.map(item => `
+        <div class="flow-item">${item.content}</div>
+      `).join('');
+    }
+
+    loadThoughts();
+  </script>
+
+  <a class="secret-link" href="admin-login.html" aria-label="Admin"></a>
+</body>
+</html>
