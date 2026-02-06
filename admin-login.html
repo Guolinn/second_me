@@ -13,6 +13,7 @@
     .login-card { width: min(420px, 92vw); }
     .form { display: grid; gap: 10px; }
     .form input { width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); font-family: "Nunito", sans-serif; }
+    .debug { font-size: 0.85rem; color: var(--muted); margin-top: 10px; word-break: break-word; }
   </style>
 </head>
 <body>
@@ -27,6 +28,7 @@
           <button class="btn" type="submit">Login</button>
         </form>
         <p id="status" style="margin-top:8px;"></p>
+        <div id="debug" class="debug"></div>
       </div>
     </div>
   </main>
@@ -37,13 +39,22 @@
   <script>
     const form = document.getElementById('admin-form');
     const statusEl = document.getElementById('status');
+    const debugEl = document.getElementById('debug');
 
     async function redirectIfLoggedIn() {
-      const { data } = await supabase.auth.getSession();
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        debugEl.textContent = 'Session error: ' + error.message;
+        return;
+      }
       if (data.session) {
         window.location.href = 'admin.html';
       }
     }
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      debugEl.textContent = `Auth event: ${event}, session: ${session ? 'yes' : 'no'}`;
+    });
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -56,6 +67,7 @@
 
       if (error || !data.session) {
         statusEl.textContent = error?.message || 'Login failed.';
+        debugEl.textContent = JSON.stringify({ error, session: !!data.session });
         return;
       }
 
