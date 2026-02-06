@@ -1,4 +1,5 @@
-const supabase = window.supabase.createClient(
+var supabase = window.supabaseClient || window.supabase.createClient(
   window.SUPABASE_URL,
   window.SUPABASE_ANON_KEY
 );
+window.supabaseClient = supabase;
